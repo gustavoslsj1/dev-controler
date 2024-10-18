@@ -29,16 +29,16 @@ export function Header() {
                 )}
 
                 {status === "loading" && (
-                    <FiLoader size={22} color="purple" />
+                    <FiLoader size={22} color="purple" className="animate-spin" />
                 )}
 
                 {status === "authenticated" && (
                     <div className="flex justify-center items-center gap-4">
-                        <Link href="/">
+                        <Link href="/dashboard">
                             <FiUser size={22} />
                         </Link>
 
-                        <button>
+                        <button onClick={handleLogout}>
                             <FiLogOut size={22} />
                         </button>
                     </div>
