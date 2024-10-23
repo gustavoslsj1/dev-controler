@@ -30,7 +30,7 @@ export default async function Costumer() {
                         Chamados
                     </h1>
                     <Button>
-                        <Link href="/">
+                        <Link href="/dashboard/costumer/newclient">
                             Novo Cliente
                         </Link>
                     </Button>

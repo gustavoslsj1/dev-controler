@@ -1,4 +1,6 @@
+
 import Heade from "./components/header";
+import { Toaster } from "@/components/ui/toaster";
 
 
 export default function DashboardLayout({children}: {children:React.ReactNode}){
@@ -6,6 +8,10 @@ export default function DashboardLayout({children}: {children:React.ReactNode}){
        <>
        <Heade/>
        {children}
+       <Toaster/>
        </>
     )
 }
+
+
+
