@@ -17,7 +17,8 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
+import {api} from "@/lib/api"
+import { useRouter } from "next/navigation"
 const FormSchema = z.object({
     name: z.string().min(1,"Username must be mandatory."),
     email:z.string().email("Digite um email valido").min(1,'O email é obrigatorio'),
@@ -30,26 +31,35 @@ const FormSchema = z.object({
 })
 
 
-export function InputForm() {
+export function InputForm({userId}: {userId: string}) {
     const { toast } = useToast()
-
+    const rout = useRouter()
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            name: "string",
+            name: "",
             phone:"",
             email:"",
             address:""
         },
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         toast({
-            title: "Uh oh! Something went wrong.",
-            description: `${name} oii`,
+            title: "cliente criado com sucesso",
+            description: ` oii`,
         })
 
-        console.log(data)
+        
+        const response = await api.post("/api/cliente", {
+            name:data.name,
+            phone:data.phone,
+            address:data.address,
+            email:data.email,
+            userId: userId
+        })
+        rout.replace("/dashboard/costumer")
+        console.log(response.data)
     }
 
     return (
@@ -60,9 +70,9 @@ export function InputForm() {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>nome</FormLabel>
+                            <FormLabel>Nome</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Nome" {...field} />
                             </FormControl>
                             <FormDescription>
                                 This is your public display name.
@@ -78,7 +88,7 @@ export function InputForm() {
                         <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Email" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -91,7 +101,7 @@ export function InputForm() {
                         <FormItem>
                             <FormLabel>Endereço<output></output></FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Endereço" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -104,13 +114,13 @@ export function InputForm() {
                         <FormItem>
                             <FormLabel>telefone</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="Telefone" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button className="" type="submit">Submit</Button>
             </form>
         </Form>
     )

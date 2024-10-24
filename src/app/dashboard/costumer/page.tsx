@@ -2,16 +2,10 @@ import { Container } from "@/components/container";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import PrismaClient from "@/lib/prisma"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Newcard } from "../components/card";
 
 
 export default async function Costumer() {
@@ -21,6 +15,14 @@ export default async function Costumer() {
         redirect("/")
     }
 
+    const clientes = await PrismaClient.customer.findMany({
+        where: {
+            userId: session.user.id
+        } 
+    })
+
+    console.log(clientes)
+    console.error("User ID:", session.user.id)
     return (
         <Container>
             <main className="mt-9 px-4">
@@ -38,45 +40,13 @@ export default async function Costumer() {
                 </div>
                 
                 <section className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Card Title</CardTitle>
-                            <CardDescription>Card Description</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>Card Content</p>
-                        </CardContent>
-                        <CardFooter>
-                            <p>Card Footer</p>
-                        </CardFooter>
-
-                    </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Card Title</CardTitle>
-                            <CardDescription>Card Description</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>Card Content</p>
-                        </CardContent>
-                        <CardFooter>
-                            <p>Card Footer</p>
-                        </CardFooter>
-
-                    </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Card Title</CardTitle>
-                            <CardDescription>Card Description</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>Card Content</p>
-                        </CardContent>
-                        <CardFooter>
-                            <p>Card Footer</p>
-                        </CardFooter>
-
-                    </Card>
+                    {clientes.map((client)=>(
+                        <Newcard 
+                        key={client.id}
+                        client={client}>
+                        
+                        </Newcard>
+                    ))}
 
                 </section>
 
