@@ -1,5 +1,5 @@
+"use client"
 import { ClientType } from "@/utils/clients.type"
-
 import {
     Card,
     CardContent,
@@ -8,8 +8,28 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { NextResponse } from "next/server"
+import { api } from "@/lib/api"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+export function Newcard({ client }: { client: ClientType }) {
+    const rout = useRouter()
+    async function handleDelete() {
 
-export function Newcard({client}:{client:ClientType}) {
+        try {
+            const response = await api.delete("/api/cliente", {
+                params: {
+                    id: client.id
+                }
+
+            })
+            console.log(response.data)
+        } catch (err) {
+            console.log("error")
+        }
+        rout.refresh()
+    }
+
     return (
         <>
             <Card>
@@ -19,11 +39,19 @@ export function Newcard({client}:{client:ClientType}) {
                 <CardContent>
                     {client.email}
                 </CardContent>
-                <CardFooter>
+
+                <CardContent>
                     {client.phone}
+                </CardContent>
+                <CardFooter>
+                    <Button onClick={handleDelete}>
+                        Delete
+                    </Button>
                 </CardFooter>
+
 
             </Card>
         </>
     )
 }
+

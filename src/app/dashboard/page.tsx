@@ -29,7 +29,7 @@ export default async function Dashboard() {
                         Chamados
                     </h1>
                     <Button>
-                        <Link href="/">
+                        <Link href="/dashboard/chamados">
                             Abrir chamado
                         </Link>
                     </Button>
@@ -37,7 +37,7 @@ export default async function Dashboard() {
                 </div>
 
                 <Table>
-                    <TableCaption>A list of your recent invoices.</TableCaption>
+                    <TableCaption>Uma lista de seus chamados .</TableCaption>
                     <TableHeader>
                         <TableRow>
                             <TableHead className="w-[100px]">CLIENTE</TableHead>

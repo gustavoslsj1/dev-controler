@@ -15,7 +15,7 @@ export default async function NewClient() {
     return (
         <Container>
             <main className="mx-4">
-                <header className="flex gap-5 my-3" >
+                <header className="flex gap-5 mt-9 mb-4" >
                     <Button className="  px-2 ">
                         <Link href="/dashboard/costumer">
                             Voltar
@@ -23,7 +23,7 @@ export default async function NewClient() {
 
                     </Button>
 
-                    <h1 className="font-bold text-3xl">Novo Cliente</h1>
+                    <h1 className="font-bold text-2xl">Novo Cliente</h1>
                 </header>
                 <InputForm userId={session.user.id} />
             </main>

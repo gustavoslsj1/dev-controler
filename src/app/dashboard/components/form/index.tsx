@@ -17,30 +17,30 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {api} from "@/lib/api"
+import { api } from "@/lib/api"
 import { useRouter } from "next/navigation"
 const FormSchema = z.object({
-    name: z.string().min(1,"Username must be mandatory."),
-    email:z.string().email("Digite um email valido").min(1,'O email é obrigatorio'),
-    phone:z.string().refine((value)=> {
-        return  /^(?:\(\d{2}\)\s?)?\d{9}$/.test(value) || /^\d{2}\s\d{9}$/.test(value) || /^\d{13}$/.test(value)
+    name: z.string().min(1, "Username must be mandatory."),
+    email: z.string().email("Digite um email valido").min(1, 'O email é obrigatorio'),
+    phone: z.string().refine((value) => {
+        return /^(?:\(\d{2}\)\s?)?\d{9}$/.test(value) || /^\d{2}\s\d{9}$/.test(value) || /^\d{13}$/.test(value)
     }, {
         message: "O numero de telefone deve estar (DD) 999999999"
     }),
-    address:z.string(),
+    address: z.string(),
 })
 
 
-export function InputForm({userId}: {userId: string}) {
+export function InputForm({ userId }: { userId: string }) {
     const { toast } = useToast()
     const rout = useRouter()
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             name: "",
-            phone:"",
-            email:"",
-            address:""
+            phone: "",
+            email: "",
+            address: ""
         },
     })
 
@@ -50,16 +50,16 @@ export function InputForm({userId}: {userId: string}) {
             description: ` oii`,
         })
 
-        
+
         const response = await api.post("/api/cliente", {
-            name:data.name,
-            phone:data.phone,
-            address:data.address,
-            email:data.email,
+            name: data.name,
+            phone: data.phone,
+            address: data.address,
+            email: data.email,
             userId: userId
         })
+        rout.refresh()
         rout.replace("/dashboard/costumer")
-        console.log(response.data)
     }
 
     return (
@@ -74,9 +74,6 @@ export function InputForm({userId}: {userId: string}) {
                             <FormControl>
                                 <Input placeholder="Nome" {...field} />
                             </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
