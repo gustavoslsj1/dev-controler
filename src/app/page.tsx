@@ -8,6 +8,7 @@ export default function Home() {
       <h1 className=" font-bold text-3xl mb-8 text-blue-600">Atendimentos, clientes</h1>
 
       <Image src={heroImg} alt="oioi" width={600} className=" max-w-sm md:max-w-xl"/>
+      oioi
     </main>
   );
 }
